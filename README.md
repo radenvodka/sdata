@@ -7,7 +7,7 @@ PHP cURL : Sdata modules multi threading
 
 # How to use 
 
-* GET DATA * 
+* GET DATA
 ```
 $url 	= array(); 
 for ($i=0; $i <12; $i++) { 
@@ -24,7 +24,7 @@ print_r($result);
 
 ```
 
-* POST DATA * 
+* POST DATA
 ```
 $url 	= array(); 
 for ($i=0; $i <12; $i++) { 
@@ -46,7 +46,7 @@ $result = $sdata->sdata($url , $custom);
 print_r($result);
 
 ```
-** Use Proxy **
+* Use Proxy
 
 ```
 $url 	= array(); 
@@ -74,6 +74,25 @@ for ($i=0; $i <12; $i++) {
 $result = $sdata->sdata($url);
 
 print_r($result);
+
+```
+
+* Remove cookies files
+```
+$url 	= array(); 
+for ($i=0; $i <12; $i++) { 
+
+	$url[] = array(
+		'url' => 'http://exapme.com',
+		'note' => 'optional', 
+	);
+
+}
+$result = $sdata->sdata($url);
+
+print_r($result);
+
+$sdata->session_remove($result);
 
 ```
 
