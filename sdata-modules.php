@@ -54,6 +54,9 @@ class Modules
 		    if($custom[$i]['proxy']){
 		    	curl_setopt($ch[$i], CURLOPT_PROXY, 	$custom[$i]['proxy']['ip']);
 		    	curl_setopt($ch[$i], CURLOPT_PROXYPORT, $custom[$i]['proxy']['port']);
+		    	if( $custom[$i]['proxy']['type'] ){
+		    		curl_setopt($ch[$i], CURLOPT_PROXYTYPE, $custom[$i]['proxy']['type']);
+		    	}
 		    }
 		    curl_setopt($ch[$i], CURLOPT_VERBOSE, false);
 		    curl_setopt($ch[$i], CURLOPT_CONNECTTIMEOUT , 0);
