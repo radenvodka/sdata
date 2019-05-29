@@ -3,10 +3,10 @@ error_reporting(0);
 /**
  * @Author: Eka Syahwan
  * @Date:   2017-11-06 22:54:36
- * @Last Modified by:   Eka Syahwan
- * @Last Modified time: 2017-12-11 17:12:21
+ * @Last Modified by:   Nokia 1337
+ * @Last Modified time: 2019-05-29 22:14:13
  */
-class Modules
+class Sdata
 {
 	public function sdata($url = null , $custom = null){
 		mkdir('cookies'); // pleas don't remove
@@ -75,11 +75,12 @@ class Modules
 		do {
 		    $mrc = curl_multi_exec($mh, $active);
 		    while($info = curl_multi_info_read($mh))
-		    {	 
+		    {	
 		    	$threads_data	= $threads[$info['handle']];
 		    	$result 		= curl_multi_getcontent($info['handle']);
 		       	$info 			= curl_getinfo($info['handle']);
 		       	$allrespons[] 	= array(
+		       		'id' 		=> $threads_data['proses_id'],
 		       		'data' 		=> $threads_data, 
 		       		'respons' 	=> $result,
 		       		'info' 		=> array(
@@ -92,6 +93,11 @@ class Modules
 		    usleep(100);
 		} while ($active);
 		curl_multi_close($mh);
+
+		usort($allrespons, function($a, $b) {
+		    return $a['id'] <=> $b['id'];
+		});
+
 		return $allrespons;
 	}
 	public function cookies($length = 60) {
@@ -108,5 +114,19 @@ class Modules
 			unlink($value['data']['cookies']);
 		}
 	}
+	public function aasort (&$array, $key) {
+	    $sorter=array();
+	    $ret=array();
+	    reset($array);
+	    foreach ($array as $ii => $va) {
+	        $sorter[$ii]=$va[$key];
+	    }
+	    asort($sorter);
+	    foreach ($sorter as $ii => $va) {
+	        $ret[$ii]=$array[$ii];
+	    }
+	    $array=$ret;
+	}
+
 }
-$sdata = new Modules();
+$sdata = new Sdata();
