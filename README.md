@@ -144,6 +144,19 @@ while (TRUE) {
 }
 ```
 
+* Format proxy non auth: 
+
+```
+127.0.0.1:1223
+```
+
+* Format proxy with auth: 
+
+```
+172.241.117.58:29842:bhyl:0jDYgVHn
+```
+
+
 ## Copyright and license
 
 Code and documentation copyright 2017 the [Eka Syahwan](https://facebook.com/eka.syahwan.id) (Sdata author) Code released under the MIT License. Docs released under Creative Commons.
