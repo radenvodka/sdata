@@ -106,6 +106,42 @@ $ProxyRotation['proxy'] = array(
 		'http_code' => array('text' =>  0), 
 	), 
 );
+
+$sdata->setRules($ProxyRotation);
+```
+* example : Rotation proxy using rules
+```
+<?php
+require_once("sdata-modules.php");
+/**
+ * @Author: Eka Syahwan
+ * @Date:   2017-12-11 17:01:26
+ * @Last Modified by:   Nokia 1337
+ * @Last Modified time: 2019-08-17 01:44:33
+*/
+
+$ProxyRotation['proxy'] = array(
+	'file' => 'proxy.txt',
+	'rules' => array(
+		'respons' 	=> array('text' =>  'city'), 
+		'http_code' => array('text' =>  0), 
+	), 
+);
+
+$sdata->setRules($ProxyRotation);
+
+while (TRUE) {
+	$url[] = array(
+		'url' => 'http://ip-api.com/json/',
+		'note' => $emailnya, 
+	);
+	$res = $sdata->sdata($url);unset($url);
+	foreach ($res as $key => $value) {
+		print_r($value);
+		$json = json_decode($value[respons],true);
+		echo $json['query']."\r\n";
+	}
+}
 ```
 
 ## Copyright and license
