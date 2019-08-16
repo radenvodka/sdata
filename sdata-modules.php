@@ -4,10 +4,41 @@ error_reporting(0);
  * @Author: Eka Syahwan
  * @Date:   2017-11-06 22:54:36
  * @Last Modified by:   Nokia 1337
- * @Last Modified time: 2019-05-29 22:14:13
+ * @Last Modified time: 2019-08-17 01:56:44
  */
 class Sdata
 {
+	public function setRules($rules = null){
+		
+		if(file_exists($rules[proxy][file])){
+			$this->setNewProxy();
+			return $this->proxy_rules = $rules;
+		}
+
+	}
+	public function setNewProxy(){
+		$bl 	= file_get_contents("proxy-blacklist.txt");
+		$file 	= file_get_contents($this->proxy_rules['proxy']['file']);
+		$file 	= explode("\r\n", $file);
+		for ($i=0; $i <12; $i++) { 
+			$proxy = $file[array_rand($file)];
+			if(preg_match("/".$proxy."/", $bl)){
+				break;
+			}
+			$i++;
+		}
+		if($proxy){
+			file_put_contents("proxy-use.txt", $proxy);
+		}
+	}
+	public function setProxy(){
+		$file 	= file_get_contents("proxy-use.txt");
+		$file 	= explode(":", $file);
+		return array(
+			'ip' => $file[0],
+			'port' => $file[1], 
+		);
+	}
 	public function sdata($url = null , $custom = null){
 		mkdir('cookies'); // pleas don't remove
 		$ch 	 	= array();
@@ -37,7 +68,7 @@ class Sdata
 		    if($custom[$i]['rto']){
 		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, $custom[$i]['rto']);
 		    }else{
-		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, 60);
+		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, 10);
 		    }
 		    if($custom[$i]['header']){
 		    	curl_setopt($ch[$i], CURLOPT_HTTPHEADER, $custom[$i]['header']);
@@ -57,6 +88,11 @@ class Sdata
 		    	if( $custom[$i]['proxy']['type'] ){
 		    		curl_setopt($ch[$i], CURLOPT_PROXYTYPE, $custom[$i]['proxy']['type']);
 		    	}
+		    }
+		    if(!empty($this->setProxy())){
+		    	$proxy = $this->setProxy();
+		    	curl_setopt($ch[$i], CURLOPT_PROXY, 	$proxy['ip']);
+		    	curl_setopt($ch[$i], CURLOPT_PROXYPORT, $proxy['port']);
 		    }
 		    curl_setopt($ch[$i], CURLOPT_VERBOSE, false);
 		    curl_setopt($ch[$i], CURLOPT_CONNECTTIMEOUT , 0);
@@ -79,6 +115,35 @@ class Sdata
 		    	$threads_data	= $threads[$info['handle']];
 		    	$result 		= curl_multi_getcontent($info['handle']);
 		       	$info 			= curl_getinfo($info['handle']);
+
+		    	if($this->proxy_rules[proxy][rules][respons]){
+
+		    		if(preg_match("/".$this->proxy_rules[proxy][rules][respons][text]."/", $result)){
+
+			    		$fopnm = fopen("proxy-blacklist.txt", "a+");
+			    		fwrite($fopnm , $proxy['ip'].":".$proxy['port']."\r\n");
+			    		fclose($fopnm);
+
+			    		$this->setNewProxy();
+
+		    		}
+
+		    	}
+
+		    	if($this->proxy_rules[proxy][rules][http_code]){
+
+		    		if($this->proxy_rules[proxy][rules][http_code]['text'] == $info['http_code']){
+
+			    		$fopnm = fopen("proxy-blacklist.txt", "a+");
+			    		fwrite($fopnm , $proxy['ip'].":".$proxy['port']."\r\n");
+			    		fclose($fopnm);
+
+			    		$this->setNewProxy();
+
+		    		}
+
+		    	}
+
 		       	$allrespons[] 	= array(
 		       		'id' 		=> $threads_data['proses_id'],
 		       		'data' 		=> $threads_data, 
