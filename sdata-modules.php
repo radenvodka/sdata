@@ -68,7 +68,7 @@ class Sdata
 		    if($custom[$i]['rto']){
 		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, $custom[$i]['rto']);
 		    }else{
-		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, 10);
+		    	curl_setopt($ch[$i], CURLOPT_TIMEOUT, 60);
 		    }
 		    if($custom[$i]['header']){
 		    	curl_setopt($ch[$i], CURLOPT_HTTPHEADER, $custom[$i]['header']);
