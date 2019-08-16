@@ -4,7 +4,7 @@ error_reporting(0);
  * @Author: Eka Syahwan
  * @Date:   2017-11-06 22:54:36
  * @Last Modified by:   Nokia 1337
- * @Last Modified time: 2019-08-17 01:56:44
+ * @Last Modified time: 2019-08-17 03:09:10
  */
 class Sdata
 {
@@ -34,10 +34,19 @@ class Sdata
 	public function setProxy(){
 		$file 	= file_get_contents("proxy-use.txt");
 		$file 	= explode(":", $file);
-		return array(
-			'ip' => $file[0],
-			'port' => $file[1], 
-		);
+		if(count($file) == 4){
+			return array(
+				'ip' => $file[0],
+				'port' => $file[1], 
+				'username' => $file[2],
+				'password' => $file[3],
+			);
+		}else{
+			return array(
+				'ip' => $file[0],
+				'port' => $file[1], 
+			);
+		}
 	}
 	public function sdata($url = null , $custom = null){
 		mkdir('cookies'); // pleas don't remove
@@ -89,10 +98,13 @@ class Sdata
 		    		curl_setopt($ch[$i], CURLOPT_PROXYTYPE, $custom[$i]['proxy']['type']);
 		    	}
 		    }
-		    if(!empty($this->setProxy())){
+		    if($this->proxy_rules){
 		    	$proxy = $this->setProxy();
 		    	curl_setopt($ch[$i], CURLOPT_PROXY, 	$proxy['ip']);
 		    	curl_setopt($ch[$i], CURLOPT_PROXYPORT, $proxy['port']);
+		    	if($proxy['username']){
+		    		curl_setopt($ch[$i], CURLOPT_PROXYUSERPWD, $proxy['username'].":".$proxy['password']);
+		    	}
 		    }
 		    curl_setopt($ch[$i], CURLOPT_VERBOSE, false);
 		    curl_setopt($ch[$i], CURLOPT_CONNECTTIMEOUT , 0);
