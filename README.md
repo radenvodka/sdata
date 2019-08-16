@@ -96,6 +96,18 @@ $sdata->session_remove($result);
 
 ```
 
+* Set Rotation proxy using rules
+
+```
+$ProxyRotation['proxy'] = array(
+	'file' => 'proxy.txt',
+	'rules' => array(
+		'respons' 	=> array('text' =>  'city'), 
+		'http_code' => array('text' =>  0), 
+	), 
+);
+```
+
 ## Copyright and license
 
 Code and documentation copyright 2017 the [Eka Syahwan](https://facebook.com/eka.syahwan.id) (Sdata author) Code released under the MIT License. Docs released under Creative Commons.
