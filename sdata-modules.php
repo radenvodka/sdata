@@ -4,7 +4,7 @@ error_reporting(0);
  * @Author: Eka Syahwan
  * @Date:   2017-11-06 22:54:36
  * @Last Modified by:   Nokia 1337
- * @Last Modified time: 2019-08-17 03:09:10
+ * @Last Modified time: 2019-08-18 22:23:33
  */
 class Sdata
 {
@@ -12,9 +12,9 @@ class Sdata
 		
 		if(file_exists($rules[proxy][file])){
 			$this->setNewProxy();
-			return $this->proxy_rules = $rules;
 		}
 
+		return $this->proxy_rules = $rules;
 	}
 	public function setNewProxy(){
 		$bl 	= file_get_contents("proxy-blacklist.txt");
@@ -106,6 +106,12 @@ class Sdata
 		    		curl_setopt($ch[$i], CURLOPT_PROXYUSERPWD, $proxy['username'].":".$proxy['password']);
 		    	}
 		    }
+
+		    if($this->proxy_rules['proxy']['auth']){
+		    	curl_setopt($ch[$i], CURLOPT_PROXY, $this->proxy_rules['proxy']['auth']['hostname'].':'.$this->proxy_rules['proxy']['auth']['port']);
+				curl_setopt($ch[$i], CURLOPT_PROXYUSERPWD, $this->proxy_rules['proxy']['auth']['username'].':'.$this->proxy_rules['proxy']['auth']['password']);
+		    }
+
 		    curl_setopt($ch[$i], CURLOPT_VERBOSE, false);
 		    curl_setopt($ch[$i], CURLOPT_CONNECTTIMEOUT , 0);
 		    curl_setopt($ch[$i], CURLOPT_RETURNTRANSFER, true);
