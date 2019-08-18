@@ -96,6 +96,20 @@ $sdata->session_remove($result);
 
 ```
 
+* Set proxy with hostname 
+
+```
+$ProxyRotation['proxy'] = array(
+	'auth' => array(
+		'hostname' 	=> 'http://proxy.xxxx.com',
+		'port' 		=> '1222',
+		'username' 	=> 'auto', 
+		'password' 	=> 'jmtP4ty8LoS2jJoAJXwKGaw5M', 
+	),
+);
+$sdata->setRules($ProxyRotation);
+```
+
 * Set Rotation proxy using rules
 
 ```
