@@ -4,7 +4,7 @@ error_reporting(0);
  * @Author: Eka Syahwan
  * @Date:   2017-11-06 22:54:36
  * @Last Modified by:   Nokia 1337
- * @Last Modified time: 2019-08-18 22:23:33
+ * @Last Modified time: 2019-08-31 09:26:51
  */
 class Sdata
 {
@@ -91,9 +91,10 @@ class Sdata
 		    	curl_setopt($ch[$i], CURLOPT_POST, true);
 		    	curl_setopt($ch[$i], CURLOPT_POSTFIELDS, $query);
 		    }
+		   // curl_setopt($ch[$i], CURLOPT_PROXY, 	'94.127.217.66');
+		    //curl_setopt($ch[$i], CURLOPT_PROXYPORT, '40115');
+		
 		    if($custom[$i]['proxy']){
-		    	curl_setopt($ch[$i], CURLOPT_PROXY, 	$custom[$i]['proxy']['ip']);
-		    	curl_setopt($ch[$i], CURLOPT_PROXYPORT, $custom[$i]['proxy']['port']);
 		    	if( $custom[$i]['proxy']['type'] ){
 		    		curl_setopt($ch[$i], CURLOPT_PROXYTYPE, $custom[$i]['proxy']['type']);
 		    	}
@@ -167,6 +168,8 @@ class Sdata
 		       		'data' 		=> $threads_data, 
 		       		'respons' 	=> $result,
 		       		'info' 		=> array(
+		       			'full' 		=> $info,
+		       			'time' 		=> str_replace('E-', '', $info[connect_time]),
 		       			'url' 		=> $info['url'],
 		       			'http_code' => $info['http_code'], 
 		       		),
